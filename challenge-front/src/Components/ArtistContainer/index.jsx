@@ -11,13 +11,10 @@ const ArtistsContainer = ({ data }) => {
 
       <ContainerStyled>
         {data && data.map((item) => (
-          <ArtistContent itemData={item}/>
+          <ArtistContent itemData={item} />
         ))}
       </ContainerStyled>
     )
-  }
-  else{
-    return <>Nothing To show</>
   }
 }
 

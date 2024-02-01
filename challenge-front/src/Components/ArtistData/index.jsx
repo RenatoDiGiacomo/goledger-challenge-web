@@ -1,8 +1,17 @@
 import React from 'react'
+import ArtistAlbuns from './ArtistAlbuns'
+import ArtistSongs from './ArtistSongs/Index'
 
-const ArtistData = () => {
+const ArtistData = ({ dataSongs, dataAlbuns }) => {
+    console.log(dataSongs)
     return (
-        <div>ArtistData</div>
+        <>
+            <ArtistAlbuns dataAlbuns={dataAlbuns} />
+            {dataSongs.map((item, index) => (
+
+                <ArtistSongs key={index} dataSongs={item} />
+            ))}
+        </>
     )
 
 }

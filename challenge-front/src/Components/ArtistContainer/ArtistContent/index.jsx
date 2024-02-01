@@ -9,11 +9,9 @@ const ArtistContent = ({ itemData }) => {
     console.log(itemData["@key"])
   }
   return (
-    <ContentStyled onClick={handleArtist} >
-      <Link to={`/artist/${itemData["@key"]}`}>
-        <h2>{itemData.name}</h2>
-        <ArtistAbout itemAbout={itemData.about} />
-      </Link>
+    <ContentStyled to={`/artist/${itemData["@key"]}`} onClick={handleArtist}>
+      <h2>{itemData.name}</h2>
+      <ArtistAbout itemAbout={itemData.about} />
     </ContentStyled>
   )
 }

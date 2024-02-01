@@ -6,6 +6,7 @@ import axios from "axios";
 
 const UseRequestApi = () => {
     const URL = "http://ec2-44-204-53-62.compute-1.amazonaws.com/api/"
+    const [loading, setLoading] = React.useState(false)
     const [searchData, getSearchData] = React.useState(null)
     const [dataSongs, getDataSongs] = React.useState([])
     const [dataAlbuns, getDataAlbuns] = React.useState([])
@@ -37,6 +38,8 @@ const UseRequestApi = () => {
     }
 
     const getDataAll = async (keyArtist) => {
+        setLoading(true)
+
         const songTitles = []
         const albumTitles = []
 
@@ -65,27 +68,24 @@ const UseRequestApi = () => {
 
 
 
-
             resSong.data.result.map(i => {
+                console.log(i.title || i.name)
                 if (i.artists[0]["@key"] === keyArtist) {
-                    songTitles.push(i.title || i.name)
-                    // console.log("Song Name: ", i.title || i.name)
+        
+                        songTitles.push(i.title || i.name)
+           
                 }
             })
 
             resAlbum.data.result.map(i => {
-                console.log("albumTitles: ", i.artist["@key"])
                 if (i.artist["@key"] === keyArtist) {
                     albumTitles.push(i.title || i.name)
-                    // console.log("Song Name: ", i.title || i.name)
                 }
             })
 
             resArtist.data.result.map(i => {
-                console.log("artistsNames: ", i["@key"])
                 if (i["@key"] === keyArtist) {
                     getDataArtist(i.name)
-                    // console.log("Song Name: ", i.title || i.name)
                 }
             })
 
@@ -96,10 +96,13 @@ const UseRequestApi = () => {
 
         } catch (error) {
             console.error(error)
+        } finally {
+            setLoading(false)
         }
 
     }
     return {
+        loading,
         searchData,
         GetDataSearchType,
         dataArtist,
