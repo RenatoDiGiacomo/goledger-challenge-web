@@ -3,6 +3,7 @@ import ArtistData from '../../../Components/ArtistData'
 import { Link, useParams } from 'react-router-dom';
 import UseRequestApi from '../../../Api/api';
 import Loading from '../../../Components/Loading';
+import { ArtistBackBtnSytled, ArtistContainerSytled } from './styled';
 
 const Artist = () => {
     const { loading, dataArtist, dataSongs, dataAlbuns, getDataAll } = UseRequestApi()
@@ -12,27 +13,19 @@ const Artist = () => {
         getDataAll(id)
     }, [])
 
-    if (!loading) {
-        if (dataSongs === null || dataArtist === null) {
-            return (
-                <>
-                    <Link to="/">Voltar</Link>
-                    <h1>{dataArtist.name}</h1>
-                    <h1>{dataArtist.id}</h1>
-                    <p>No songs Found</p>
-                </>
-            )
-        } else {
-            return (
-                <div>
-                    <Link to="/">Voltar</Link>
-                    <h1>{dataArtist.name}</h1>
-                    <ArtistData dataSongs={dataSongs} dataAlbuns={dataAlbuns} />
-                </div>
-            )
-        }
-    } else {
+    // console.log(dataArtist, dataSongs, dataAlbuns)
 
+    if (!loading) {
+        return (
+            <ArtistContainerSytled>
+                    <ArtistBackBtnSytled to={"/"}>Back</ArtistBackBtnSytled>
+                {dataArtist && dataArtist.map((item, index) => (
+                    <ArtistData key={index} data={item} id={id} dataSongs={dataSongs} dataAlbuns={dataAlbuns} />
+                ))}
+            </ArtistContainerSytled >
+        )
+
+    } else {
         return (
             <Loading />
         )

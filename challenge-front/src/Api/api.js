@@ -8,16 +8,16 @@ const UseRequestApi = () => {
     const URL = "http://ec2-44-204-53-62.compute-1.amazonaws.com/api/"
     const [loading, setLoading] = React.useState(false)
     const [searchData, getSearchData] = React.useState(null)
-    const [dataSongs, getDataSongs] = React.useState([])
+    const [dataSongs, getDataSongs] = React.useState(null)
     const [dataAlbuns, getDataAlbuns] = React.useState(null)
-    const [dataArtist, getDataArtist] = React.useState({ name: "", id: "" })
+    const [dataArtist, getDataArtist] = React.useState(null)
 
 
     const api = axios.create({
         baseURL: URL,
         'Content-Type': "application/json"
     })
-
+    //Used only in Home Push
     const GetDataSearchType = async (type) => {
         try {
             const res = await api.post("query/search", {
@@ -37,7 +37,7 @@ const UseRequestApi = () => {
         }
 
     }
-
+    // allgets in page
     const getDataAll = async (keyArtist) => {
         setLoading(true)
 
@@ -46,47 +46,46 @@ const UseRequestApi = () => {
 
         try {
             const resSong = await api.post("query/search", {
+
                 "query": {
                     "selector": {
-                        "@assetType": "song"
+                        "@assetType": "song",
+                        "artists": [
+                            {
+                                "@assetType": "artist",
+                                "@key": keyArtist
+                            }
+                        ]
+
                     }
                 }
             });
             const resAlbum = await api.post("query/search", {
                 "query": {
                     "selector": {
-                        "@assetType": "album"
+                        "@assetType": "album",
+                        "artist": {
+                            "@key": keyArtist
+                        }
                     }
                 }
             });
             const resArtist = await api.post("query/search", {
                 "query": {
                     "selector": {
-                        "@assetType": "artist"
+                        "@assetType": "artist",
+                        "@key": keyArtist
                     }
                 }
             });
 
 
+            getDataSongs(resSong.data.result)
 
-            resSong.data.result.map(i => {
-                if (i.artists[0]["@key"] === keyArtist) {
-                    getDataSongs((prev => [...prev, i]))
-                    console.log(i)
-                }
-            })
+            getDataAlbuns(resAlbum.data.result)
 
-            resAlbum.data.result.map(i => {
-                if (i.artist["@key"] === keyArtist) {
-                    getDataAlbuns(i)
-                }
-            })
+            getDataArtist(resArtist.data.result)
 
-            resArtist.data.result.map(i => {
-                if (i["@key"] === keyArtist) {
-                    getDataArtist({ name: i.name, id: i["@key"] })
-                }
-            })
 
         } catch (error) {
             console.error(error)
@@ -94,7 +93,97 @@ const UseRequestApi = () => {
             setLoading(false)
         }
 
+
     }
+    // DeleteActons
+
+    const DeleteArtist = async (name, id) => {
+        setLoading(true)
+
+        try {
+            const bodyData = {
+                "key": {
+                    "@assetType": "artist",
+                    "id": id,
+                    "name": name
+                }
+            }
+            const res = await api.delete("invoke/deleteAsset", { data: bodyData })
+            alert(res.data)
+
+        } catch (error) {
+            console.error(error)
+            if (error.response.status === 400) {
+                alert("Need Delete the Album/Songs first")
+            }
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const DeleteAlbum = async (data) => {
+        const { title, artistId } = data
+        setLoading(true)
+
+        try {
+            const bodyData = {
+                "key": {
+                    "@assetType": "album",
+                    "title": title,
+                    "artist": {
+                        "@assetType": "artist",
+                        "@key": artistId
+                    }
+                }
+            }
+            const res = await api.delete("invoke/deleteAsset", { data: bodyData })
+            alert(res.data)
+
+        } catch (error) {
+            console.error(error)
+            if (error.response.status === 400) {
+                alert("Need Delete the Songs first")
+            }
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const DeleteSong = async (data) => {
+        const { title, albumId, artistId } = data
+        setLoading(true)
+
+        try {
+            const bodyData = {
+                "key": {
+                    "@assetType": "song",
+                    "title": title,
+                    "album": {
+                        "@assetType": "album",
+                        "@key": albumId
+                    },
+                    "artists": [
+                        {
+                            "@assetType": "artist",
+                            "@key": artistId
+                        }
+                    ]
+                }
+            }
+            const res = await api.delete("invoke/deleteAsset", { data: bodyData })
+            alert(res.data)
+
+        } catch (error) {
+            console.error(error)
+            if (error.response.status === 400) {
+                alert("Something Wrong")
+            }
+        } finally {
+            setLoading(false)
+        }
+    }
+
+
     return {
         loading,
         searchData,
@@ -103,6 +192,9 @@ const UseRequestApi = () => {
         dataSongs,
         dataAlbuns,
         getDataAll,
+        DeleteArtist,
+        DeleteSong,
+        DeleteAlbum,
 
     }
 }

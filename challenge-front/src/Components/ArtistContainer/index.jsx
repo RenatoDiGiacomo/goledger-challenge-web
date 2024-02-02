@@ -1,16 +1,14 @@
 import React from 'react'
 import { ContainerStyled, ContainerContentStyled } from './style'
 import ArtistContent from './ArtistContent'
-import CreateArtist from '../CreateArtist'
+import CreateModal from '../CreateModal'
 
 const ArtistsContainer = ({ data }) => {
-
-
 
   if (data) {
     return (
       <ContainerStyled>
-        <CreateArtist />
+        <CreateModal />
         <ContainerContentStyled>
           {data && data.map((item) => (
             <ArtistContent itemData={item} />

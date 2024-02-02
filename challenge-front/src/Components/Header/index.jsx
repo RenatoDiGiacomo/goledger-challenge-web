@@ -24,8 +24,8 @@ const Header = () => {
                     <HeaderLogoStyled src={Logo} />
                 </a>
                 <HeaderSearchBarFormStyled method='GET' onSubmit={handleSubmit}>
-                    <HeaderSearchBarInputStyled type='text' placeholder='Search Here' />
-                    <HeaderSearchBarBtnStyled type='submit' value={"Search"} />
+                    {/* <HeaderSearchBarInputStyled type='text' placeholder='Search Here' />
+                    <HeaderSearchBarBtnStyled type='submit' value={"Search"} /> */}
                 </HeaderSearchBarFormStyled>
             </HeaderRowStyled>
         </HeaderContainerStyled>
