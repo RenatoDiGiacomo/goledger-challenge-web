@@ -1,6 +1,7 @@
 import React from 'react'
-import { ContainerStyled } from './style'
+import { ContainerStyled, ContainerContentStyled } from './style'
 import ArtistContent from './ArtistContent'
+import CreateArtist from '../CreateArtist'
 
 const ArtistsContainer = ({ data }) => {
 
@@ -8,12 +9,15 @@ const ArtistsContainer = ({ data }) => {
 
   if (data) {
     return (
-
       <ContainerStyled>
-        {data && data.map((item) => (
-          <ArtistContent itemData={item} />
-        ))}
+        <CreateArtist />
+        <ContainerContentStyled>
+          {data && data.map((item) => (
+            <ArtistContent itemData={item} />
+          ))}
+        </ContainerContentStyled>
       </ContainerStyled>
+
     )
   }
 }

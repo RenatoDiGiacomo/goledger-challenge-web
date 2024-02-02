@@ -4,7 +4,7 @@ import styled from "styled-components"
 const HeaderContainerStyled = styled("header")`
     width: 100%;
     height: 72px;
-    background: linear-gradient(to right, #4267B2,#34495E);
+    background: linear-gradient(to bottom, #1a1a1a,#000000);
 `
 const HeaderRowStyled = styled("div")`
     display: flex;

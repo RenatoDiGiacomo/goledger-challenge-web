@@ -7,19 +7,18 @@ import Loading from '../../../Components/Loading';
 const Artist = () => {
     const { loading, dataArtist, dataSongs, dataAlbuns, getDataAll } = UseRequestApi()
     const { id } = useParams()
-    console.log("artista Id: ", id)
-
 
     React.useEffect(() => {
         getDataAll(id)
     }, [])
-    if (!loading) {
 
-        if (dataSongs.length === 0) {
+    if (!loading) {
+        if (dataSongs === null || dataArtist === null) {
             return (
                 <>
                     <Link to="/">Voltar</Link>
-                    <h1>{dataArtist}</h1>
+                    <h1>{dataArtist.name}</h1>
+                    <h1>{dataArtist.id}</h1>
                     <p>No songs Found</p>
                 </>
             )
@@ -27,8 +26,8 @@ const Artist = () => {
             return (
                 <div>
                     <Link to="/">Voltar</Link>
-                    <h1>{dataArtist}</h1>
-                    <ArtistData dataSongs={dataSongs} dataAlbuns={dataAlbuns}/>
+                    <h1>{dataArtist.name}</h1>
+                    <ArtistData dataSongs={dataSongs} dataAlbuns={dataAlbuns} />
                 </div>
             )
         }

@@ -7,10 +7,7 @@ const ArtistData = ({ dataSongs, dataAlbuns }) => {
     return (
         <>
             <ArtistAlbuns dataAlbuns={dataAlbuns} />
-            {dataSongs.map((item, index) => (
-
-                <ArtistSongs key={index} dataSongs={item} />
-            ))}
+            <ArtistSongs dataSongs={dataSongs} />
         </>
     )
 

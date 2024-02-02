@@ -20,7 +20,9 @@ const Header = () => {
     return (
         <HeaderContainerStyled>
             <HeaderRowStyled>
-                <HeaderLogoStyled src={Logo} />
+                <a href="/">
+                    <HeaderLogoStyled src={Logo} />
+                </a>
                 <HeaderSearchBarFormStyled method='GET' onSubmit={handleSubmit}>
                     <HeaderSearchBarInputStyled type='text' placeholder='Search Here' />
                     <HeaderSearchBarBtnStyled type='submit' value={"Search"} />

@@ -9,8 +9,9 @@ const UseRequestApi = () => {
     const [loading, setLoading] = React.useState(false)
     const [searchData, getSearchData] = React.useState(null)
     const [dataSongs, getDataSongs] = React.useState([])
-    const [dataAlbuns, getDataAlbuns] = React.useState([])
-    const [dataArtist, getDataArtist] = React.useState(null)
+    const [dataAlbuns, getDataAlbuns] = React.useState(null)
+    const [dataArtist, getDataArtist] = React.useState({ name: "", id: "" })
+
 
     const api = axios.create({
         baseURL: URL,
@@ -69,30 +70,23 @@ const UseRequestApi = () => {
 
 
             resSong.data.result.map(i => {
-                console.log(i.title || i.name)
                 if (i.artists[0]["@key"] === keyArtist) {
-        
-                        songTitles.push(i.title || i.name)
-           
+                    getDataSongs((prev => [...prev, i]))
+                    console.log(i)
                 }
             })
 
             resAlbum.data.result.map(i => {
                 if (i.artist["@key"] === keyArtist) {
-                    albumTitles.push(i.title || i.name)
+                    getDataAlbuns(i)
                 }
             })
 
             resArtist.data.result.map(i => {
                 if (i["@key"] === keyArtist) {
-                    getDataArtist(i.name)
+                    getDataArtist({ name: i.name, id: i["@key"] })
                 }
             })
-
-
-
-            getDataSongs([...dataSongs, ...songTitles])
-            getDataAlbuns([...dataAlbuns, ...albumTitles])
 
         } catch (error) {
             console.error(error)

@@ -1,9 +1,10 @@
 import React from 'react'
+import { AboutTextStyled } from './style'
 
 const ArtistAbout = ({ itemAbout }) => {
   if (itemAbout !== "") {
     return (
-      <p>{itemAbout}</p>
+      <AboutTextStyled title={itemAbout}>{itemAbout}</AboutTextStyled>
     )
 
   } else {

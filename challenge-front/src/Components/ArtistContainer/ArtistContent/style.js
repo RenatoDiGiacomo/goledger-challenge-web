@@ -11,15 +11,14 @@ const ContentStyled = styled(Link)`
     align-items: center;
     gap: 21px;
     padding: 1.5rem;
-    border: 1px solid black;
-    background-color: #fafafa;
-    color: black;
+    border-radius: 12px;
+    background-color: #1a1a1a;
     text-decoration: none;
     transition: all .2s linear;
-    box-shadow: 2px 2px 4px 4px gray;
+    /* box-shadow: 1px 2px 4px 4px darkgrey; */
 
     &:hover{
-        box-shadow: 2px 2px  2px 2px gray;
+        background-color: #272727;
         transition: all .2s linear;
     }
 `
